@@ -29,7 +29,9 @@ public class PlayerBaseState : IState
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.canceled += OnMovementCanceled;
         input.playerActions.Run.started += OnRunStarted;
-        input.playerActions.Jump.started += OnJumpStarted;
+        stateMachine.Player.Input.playerActions.Jump.started += OnJumpStarted;
+        stateMachine.Player.Input.playerActions.Attack.performed += OnAttackPerformed;
+        stateMachine.Player.Input.playerActions.Attack.canceled += OnAttackCancled;
     }
     
     protected virtual void RemoveInputActionCallbacks()
@@ -37,7 +39,9 @@ public class PlayerBaseState : IState
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.canceled -= OnMovementCanceled;
         input.playerActions.Run.started -= OnRunStarted;
-        input.playerActions.Jump.started -= OnJumpStarted;
+        stateMachine.Player.Input.playerActions.Jump.started -= OnJumpStarted;
+        stateMachine.Player.Input.playerActions.Attack.performed -= OnAttackPerformed;
+        stateMachine.Player.Input.playerActions.Attack.canceled -= OnAttackCancled;
     }
 
     public virtual void HandleInput()
@@ -68,6 +72,16 @@ public class PlayerBaseState : IState
     protected virtual void OnJumpStarted(InputAction.CallbackContext context)
     {
         
+    }
+
+    protected virtual void OnAttackPerformed(InputAction.CallbackContext context)
+    { 
+        stateMachine.isAttacking = true;
+    }
+    
+    protected virtual void OnAttackCancled(InputAction.CallbackContext context)
+    {
+        stateMachine.isAttacking = false;
     }
     
     protected void StartAnimation(int animatorHash)
@@ -127,6 +141,32 @@ public class PlayerBaseState : IState
             Transform playerTransform = stateMachine.Player.transform;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
+        }
+    }
+
+    protected void ForceMove()
+    {
+        stateMachine.Player.Controller.Move(stateMachine.Player.ForceReceiver.Movement * Time.deltaTime);
+    }
+
+    protected float GetNormalizedTime(Animator animator, string tag)
+    {
+        AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo nextInfo = animator.GetNextAnimatorStateInfo(0);
+
+        // 전환되고 있을때 && 다음 애니메이션이 tag
+        if (animator.IsInTransition(0) && nextInfo.IsTag(tag))
+        {
+            return nextInfo.normalizedTime;
+        }
+        // 전환되고 있지 않을때 현재 애니메이션이 tag
+        else if (!animator.IsInTransition(0) && currentInfo.IsTag(tag))
+        {
+            return currentInfo.normalizedTime;
+        }
+        else
+        {
+            return 0f;
         }
     }
 }

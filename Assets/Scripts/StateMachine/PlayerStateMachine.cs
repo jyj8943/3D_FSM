@@ -13,6 +13,9 @@ public class PlayerStateMachine : StateMachine
     
     public float JumpForce { get; set; }
     
+    public bool isAttacking { get; set; }
+    public int ComboIndex { get; set; }
+    
     public Transform MainCamTransform { get; set; }
 
     public PlayerIdleState IdleState { get; private set; }
@@ -20,7 +23,8 @@ public class PlayerStateMachine : StateMachine
     public PlayerRunState RunState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerFallState FallState { get; private set; }
-    
+    public PlayerComboAttackState ComboAttackState { get; }
+
     public PlayerStateMachine(Player player)
     {
         this.Player = player;
@@ -32,6 +36,7 @@ public class PlayerStateMachine : StateMachine
         RunState = new PlayerRunState(this);
         JumpState = new PlayerJumpState(this);
         FallState = new PlayerFallState(this);
+        ComboAttackState = new PlayerComboAttackState(this);
         
         MovementSpeed = player.Data.GroundData.BaseSpeed;
         RotationDamping = player.Data.GroundData.BaseRotationDamping;
