@@ -40,4 +40,10 @@ public class PlayerGroundState : PlayerBaseState
         
         base.OnMovementCanceled(context);
     }
+
+    protected override void OnJumpStarted(InputAction.CallbackContext context)
+    {
+        base.OnJumpStarted(context);
+        stateMachine.ChangeState(stateMachine.JumpState);
+    }
 }
