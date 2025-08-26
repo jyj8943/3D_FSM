@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerBaseState : IState
 {
@@ -15,12 +16,26 @@ public class PlayerBaseState : IState
     
     public virtual void Enter()
     {
-        
+        AddInputActionCallbacks();
     }
 
     public virtual void Exit()
     {
-        
+        RemoveInputActionCallbacks();
+    }
+
+    protected virtual void AddInputActionCallbacks()
+    {
+        PlayerController input = stateMachine.Player.Input;
+        input.playerActions.Movement.canceled += OnMovementCanceled;
+        input.playerActions.Run.started += OnRunStarted;
+    }
+    
+    protected virtual void RemoveInputActionCallbacks()
+    {
+        PlayerController input = stateMachine.Player.Input;
+        input.playerActions.Movement.canceled -= OnMovementCanceled;
+        input.playerActions.Run.started -= OnRunStarted;
     }
 
     public virtual void HandleInput()
@@ -36,6 +51,16 @@ public class PlayerBaseState : IState
     public virtual void Update()
     {
         Move();
+    }
+    
+    protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
+    {
+        
+    }
+
+    protected virtual void OnRunStarted(InputAction.CallbackContext context)
+    {
+        
     }
 
     protected void StartAnimation(int animatorHash)

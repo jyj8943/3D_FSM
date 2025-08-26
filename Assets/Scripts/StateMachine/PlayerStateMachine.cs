@@ -16,6 +16,8 @@ public class PlayerStateMachine : StateMachine
     public Transform MainCamTransform { get; set; }
 
     public PlayerIdleState IdleState { get; private set; }
+    public PlayerWalkState WalkState { get; private set; }
+    public PlayerRunState RunState { get; private set; }
     
     public PlayerStateMachine(Player player)
     {
@@ -24,6 +26,8 @@ public class PlayerStateMachine : StateMachine
         MainCamTransform = Camera.main.transform;
 
         IdleState = new PlayerIdleState(this);
+        WalkState = new PlayerWalkState(this);
+        RunState = new PlayerRunState(this);
 
         MovementSpeed = player.Data.GroundData.BaseSpeed;
         RotationDamping = player.Data.GroundData.BaseRotationDamping;
