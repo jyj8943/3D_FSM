@@ -29,7 +29,7 @@ public class PlayerJumpState : PlayerAirState
 
         if (stateMachine.Player.Controller.velocity.y <= 0)
         {
-            stateMachine.ChangeState(stateMachine.IdleState);
+            stateMachine.ChangeState(stateMachine.FallState);
             return;
         }
     }
