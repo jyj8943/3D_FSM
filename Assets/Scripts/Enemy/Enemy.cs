@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour
     public ForceReceiver ForceReceiver { get; private set; }
 
     private EnemyStateMachine stateMachine;
+    
+    [field:SerializeField] public Weapon Weapon { get; private set; }
 
     private void Awake()
     {
