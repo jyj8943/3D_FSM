@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294a63cb92f7f454da09c87be4b66830, type: 3}
+  m_Name: Enemy
+  m_EditorClassIdentifier: 
+  <PlayerChasingRange>k__BackingField: 10
+  <AttackRange>k__BackingField: 1.5
+  <ForceTransitionTime>k__BackingField: 0.1
+  <Force>k__BackingField: 1
+  Damage: 10
+  <GroundData>k__BackingField:
+    <BaseSpeed>k__BackingField: 5
+    <BaseRotationDamping>k__BackingField: 1
+    <WalkSpeedModifier>k__BackingField: 0.225
+    <RunSpeedModifier>k__BackingField: 1
+  <Dealing_Start_TransitionTime>k__BackingField: 0
+  <Dealing_End_TransitionTime>k__BackingField: 0
